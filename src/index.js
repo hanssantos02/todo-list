@@ -7,5 +7,11 @@
 // Your next step (Lesson 0001 exercise): do NOT code yet. Design on paper first.
 // Leave this file as-is until Lesson 0002 tells you what to create.
 import "./styles.css";
+import { createProject, addTodoToProject } from "./project.js";
+import { createTodo, toggleComplete } from "./todo.js";
+import { saveProjects, loadProjects } from "./storage.js";
 
-console.log("Webpack is working. Now close this file and do Lesson 0001's design exercise.");
+const p = createProject("Test Project");
+addTodoToProject(p, createTodo({title: "Test", description: "d", dueDate: "2026-09-20", priority: "low"}));
+saveProjects([p]);
+console.log("loaded count:", loadProjects()[0].todos.length);
