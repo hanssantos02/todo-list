@@ -10,8 +10,26 @@ import "./styles.css";
 import { createProject, addTodoToProject } from "./project.js";
 import { createTodo, toggleComplete } from "./todo.js";
 import { saveProjects, loadProjects } from "./storage.js";
+import { renderProjects, renderTodos } from "./ui.js";
 
-const p = createProject("Test Project");
-addTodoToProject(p, createTodo({title: "Test", description: "d", dueDate: "2026-09-20", priority: "low"}));
-saveProjects([p]);
-console.log("loaded count:", loadProjects()[0].todos.length);
+let projects = loadProjects();
+if (projects.length === 0) {
+    projects = [createProject("Default")];
+    saveProjects(projects);
+}
+
+let activeId = projects[0].id;
+
+renderProjects(projects, activeId, (id) => {
+    activeId = id;
+    draw();
+});
+
+function draw() {
+    renderProjects(projects, activeId, (id) => {
+    activeId = id;
+    draw();
+    });
+    renderTodos(projects.find(p => p.id === activeId));
+}
+draw();
