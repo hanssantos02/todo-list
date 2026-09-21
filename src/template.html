@@ -3,36 +3,109 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Todo List — strategic build</title>
+  <title>Ledger — a quiet todo</title>
+  <meta name="description" content="A calm editorial todo ledger. Projects as an index, tasks as ruled entries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- YOU build this in Lesson 0003+. Keep it empty for now: no static todos. -->
-  <div id="app">
-    <form id="project-form">
-      <label for="project-name">Project:</label>
-      <input type="text" id="project-name">
-      <button>Submit</button>
-    </form>
-    <aside id="projects"></aside>
-    <main id="todos"></main>
-    <form id="todo-form">
-        <label for="title">Title:</label>
-        <input type="text" id="todo-title">
+  <div class="page">
+    <header class="masthead">
+      <div class="masthead-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1.5" y="1.5" width="23" height="23" rx="6" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 13.2l3.4 3.4L18.2 9.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">Ledger</span>
+            <span class="brand-sub">a quiet todo</span>
+          </span>
+        </div>
+        <div class="masthead-meta">
+          <span id="masthead-date" class="masthead-date">Today</span>
+          <span class="masthead-rule" aria-hidden="true"></span>
+          <span id="masthead-progress" class="masthead-progress">0 of 0 clear</span>
+        </div>
+      </div>
+    </header>
 
-        <label for="description">Description:</label>
-        <input type="text" id="todo-desc">
+    <div class="layout">
+      <aside class="sidebar">
+        <section class="panel index-panel" aria-labelledby="index-heading">
+          <div class="panel-head">
+            <h2 id="index-heading">Index</h2>
+            <span id="index-count" class="panel-count">0</span>
+          </div>
+          <form id="project-form" class="project-form" novalidate>
+            <label class="field" for="project-name">
+              <span class="field-label">New project</span>
+              <span class="field-row">
+                <input type="text" id="project-name" name="project-name" placeholder="e.g. Garden, Thesis, Kitchen" autocomplete="off" maxlength="60">
+                <button type="submit" class="btn btn-primary">Add</button>
+              </span>
+            </label>
+            <p class="form-error" id="project-error" role="alert" hidden></p>
+          </form>
+          <div id="projects" class="project-list" role="list"></div>
+          <p class="panel-hint">Enter adds. Click Trash 2 times to delete</p>
+        </section>
+      </aside>
 
-        <label for="dueDate">Due Date:</label>
-        <input type="date" id="todo-dueDate">
+      <main class="content">
+        <section class="active-head" aria-live="polite">
+          <h1 id="project-title" class="project-title">Default</h1>
+          <p id="project-meta" class="project-meta">0 open · 0 done</p>
+        </section>
 
-        <label for="priority">Priority:</label>
-        <select id="todo-prio">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <button>Submit</button>
-    </form>
+        <section id="todos" class="ledger-wrap" aria-label="Tasks"></section>
+
+        <section class="panel capture" aria-labelledby="capture-heading">
+          <div class="panel-head">
+            <h2 id="capture-heading">New entry</h2>
+            <span class="capture-hint">Title is required · Enter saves</span>
+          </div>
+          <form id="todo-form" class="todo-form" novalidate>
+            <label class="field span-2" for="todo-title">
+              <span class="field-label">Title</span>
+              <input type="text" id="todo-title" name="title" placeholder="What needs doing?" autocomplete="off" maxlength="120">
+            </label>
+            <label class="field span-2" for="todo-desc">
+              <span class="field-label">Notes <em>optional</em></span>
+              <input type="text" id="todo-desc" name="description" placeholder="Context, links, details…" autocomplete="off" maxlength="240">
+            </label>
+            <label class="field" for="todo-dueDate">
+              <span class="field-label">Due</span>
+              <input type="date" id="todo-dueDate" name="dueDate">
+            </label>
+            <label class="field" for="todo-prio">
+              <span class="field-label">Priority</span>
+              <select id="todo-prio" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <div class="form-foot span-2">
+              <p class="form-error" id="todo-error" role="alert" hidden></p>
+              <button type="submit" class="btn btn-primary btn-large">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M7 1.5v11M1.5 7h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Add to ledger
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <footer class="colophon">
+          <p>Kept locally, in your browser. <span id="colophon-count">0 projects</span></p>
+        </footer>
+      </main>
+    </div>
   </div>
 </body>
 </html>
