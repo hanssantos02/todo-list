@@ -1,14 +1,32 @@
-export function renderProjects(projects, activeId, onSelect) {
+import { format, parseISO, isValid } from "date-fns";
+
+function prettyDate(iso) {
+    if (!iso) return "(no date)";
+    const d = parseISO(iso);
+    return isValid(d) ? format(d, "MMM d, yyyy") : ("invalid date");
+}
+
+export function renderProjects(projects, activeId, onSelect, onDelete) {
     const projectContainer = document.querySelector('#projects');
     projectContainer.innerHTML = "";
 
     projects.forEach((project) => {
+        const row = document.createElement("div");
         const projectBtn = document.createElement('button');
+        const delBtn = document.createElement("button");
+
         projectBtn.textContent = `${project.name} #${project.todos.length}`;
+        delBtn.textContent = "x";
+        delBtn.title = `Delete ${project.name}`;
 
         projectBtn.addEventListener("click", () => onSelect(project.id));
+        delBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            onDelete?.(project.id);
+        });
 
-        projectContainer.appendChild(projectBtn);
+        row.append(projectBtn, delBtn)
+        projectContainer.appendChild(row);
 
         if (project.id === activeId) {
             projectBtn.classList.add('active');
@@ -44,7 +62,7 @@ export function renderTodos(project, { onToggle, onDelete, onEdit } = {}) {
 
         title.textContent = todo.title;
         if (todo.completed) title.style.textDecoration = "line-through";
-        dueDate.textContent = todo.dueDate;
+        dueDate.textContent = prettyDate(todo.dueDate);
         priority.textContent = todo.priority;
         priority.classList.add('priority', `priority-${todo.priority}`);
         expandBtn.textContent = "Details"

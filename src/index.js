@@ -7,7 +7,7 @@
 // Your next step (Lesson 0001 exercise): do NOT code yet. Design on paper first.
 // Leave this file as-is until Lesson 0002 tells you what to create.
 import "./styles.css";
-import { createProject, addTodoToProject, removeTodoFromProject } from "./project.js";
+import { createProject, addTodoToProject, removeTodoFromProject, removeProject } from "./project.js";
 import { createTodo, toggleComplete } from "./todo.js";
 import { saveProjects, loadProjects } from "./storage.js";
 import { renderProjects, renderTodos } from "./ui.js";
@@ -20,16 +20,18 @@ if (projects.length === 0) {
 
 let activeId = projects[0].id;
 
-renderProjects(projects, activeId, (id) => {
-    activeId = id;
-    draw();
-});
-
 function draw() {
     renderProjects(projects, activeId, (id) => {
     activeId = id;
     draw();
-    });
+    }, (delId) => {
+    if (!confirm("Delete this project and all its content?")) return;
+    removeProject(projects, delId);
+    if (projects.length === 0) projects.push(createProject("Default"));
+    if (activeId === delId) activeId = projects[0].id;
+    saveProjects(projects);
+    draw();
+});
     const activeProject = projects.find(p => p.id === activeId);
     renderTodos(activeProject, {
         onToggle: (todoId) => {

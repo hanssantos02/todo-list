@@ -19,3 +19,9 @@ export function removeTodoFromProject(project, todoId) {
     if (i !== -1) project.todos.splice(i, 1);
     return project;
 }
+
+export function removeProject(projects, projectId) {
+    const i = projects.findIndex(p => p.id === projectId);
+    if (i !== -1) projects.splice(i, 1);
+    return projects;
+}
