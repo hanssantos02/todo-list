@@ -35,6 +35,9 @@ export function renderTodos(project, { onToggle, onDelete, onEdit } = {}) {
         const title = document.createElement('strong');
         const dueDate = document.createElement("span");
         const priority = document.createElement("span");
+        const expandBtn = document.createElement("button");
+        const detailsDiv = document.createElement("div");
+        const todoDesc = document.createElement("p");
         const doneBtn = document.createElement("button");
         const delBtn = document.createElement("button");
         const editBtn = document.createElement("button");
@@ -44,15 +47,24 @@ export function renderTodos(project, { onToggle, onDelete, onEdit } = {}) {
         dueDate.textContent = todo.dueDate;
         priority.textContent = todo.priority;
         priority.classList.add('priority', `priority-${todo.priority}`);
+        expandBtn.textContent = "Details"
+        todoDesc.textContent = todo.description ? todo.description : "(No description)";
         doneBtn.textContent = todo.completed ? "Undo" : "Done";
         delBtn.textContent = "Delete";
         editBtn.textContent = "Edit";
+        detailsDiv.style.display = "none";
 
         doneBtn.addEventListener("click", () => onToggle(todo.id));
         delBtn.addEventListener("click", () => onDelete(todo.id));
         editBtn.addEventListener("click", () => onEdit(todo.id));
+        expandBtn.addEventListener("click", () => {
+            const open = detailsDiv.style.display === "none";
+            detailsDiv.style.display = open ? "block" : "none";
+            expandBtn.textContent = open ? "Hide" : "Details";
+        })
 
-        li.append(title, dueDate, priority, doneBtn, delBtn, editBtn);
+        detailsDiv.appendChild(todoDesc);
+        li.append(title, detailsDiv, dueDate, priority, expandBtn, doneBtn, delBtn, editBtn);
         ul.appendChild(li);
     })
     todosContainer.appendChild(ul);

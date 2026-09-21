@@ -66,11 +66,12 @@ form.addEventListener("submit", (e) => {
 
     const active = projects.find(p => p.id === activeId);
     const title = document.querySelector("#todo-title").value;
+    const description = document.querySelector("#todo-desc").value;
     const dueDate = document.querySelector("#todo-dueDate").value;
     const priority = document.querySelector("#todo-prio").value;
 
     try {
-        const todo = createTodo({title, description: "", dueDate, priority});
+        const todo = createTodo({title, description, dueDate, priority});
         addTodoToProject(active, todo);
         saveProjects(projects);
         draw();
@@ -93,7 +94,7 @@ projectForm.addEventListener("submit", (e) => {
         activeId = p.id;
         saveProjects(projects);
         draw();
-        form.reset();
+        projectForm.reset();
     } catch (err) {
         alert(err.message);
     }   
