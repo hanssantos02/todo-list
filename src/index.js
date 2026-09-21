@@ -79,4 +79,23 @@ form.addEventListener("submit", (e) => {
         alert(err.message);
     }
 })
+
+const projectForm = document.querySelector("#project-form");
+
+projectForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.querySelector("#project-name").value;
+
+    try {
+        const p = createProject(name);
+        projects.push(p);
+        activeId = p.id;
+        saveProjects(projects);
+        draw();
+        form.reset();
+    } catch (err) {
+        alert(err.message);
+    }   
+})
 draw();

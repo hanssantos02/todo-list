@@ -1,2 +1,105 @@
-/* Your styles live here. Keep it minimal until logic works. */
-body { font-family: system-ui, sans-serif; margin: 2rem; }
+/* Usable-first stylesheet — logic owns the app, this just makes it readable. */
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  background: #f4f4f5;
+  color: #18181b;
+}
+#app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+#project-form, #todo-form {
+  background: #fff;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: end;
+}
+#project-form { grid-column: 1; }
+#todo-form { grid-column: 2; }
+#project-form label, #todo-form label {
+  font-size: 0.75rem;
+  color: #71717a;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+input, select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+button {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+button:hover { background: #f4f4f5; }
+#projects {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+#projects button { text-align: left; }
+#projects button.active {
+  background: #18181b;
+  color: #fff;
+  border-color: #18181b;
+}
+#todos { grid-column: 2; }
+#todos ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#todos li {
+  background: #fff;
+  border: 1px solid #e4e4e7;
+  border-left: 4px solid #a1a1aa;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+#todos li strong { flex: 1 1 100%; font-size: 1rem; }
+#todos li span {
+  font-size: 0.8rem;
+  color: #52525b;
+  background: #f4f4f5;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+#todos li span.priority-high {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+#todos li span.priority-medium {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+#todos li span.priority-low {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}

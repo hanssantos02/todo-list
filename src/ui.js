@@ -43,6 +43,7 @@ export function renderTodos(project, { onToggle, onDelete, onEdit } = {}) {
         if (todo.completed) title.style.textDecoration = "line-through";
         dueDate.textContent = todo.dueDate;
         priority.textContent = todo.priority;
+        priority.classList.add('priority', `priority-${todo.priority}`);
         doneBtn.textContent = todo.completed ? "Undo" : "Done";
         delBtn.textContent = "Delete";
         editBtn.textContent = "Edit";
