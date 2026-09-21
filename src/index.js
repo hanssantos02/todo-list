@@ -7,7 +7,7 @@
 // Your next step (Lesson 0001 exercise): do NOT code yet. Design on paper first.
 // Leave this file as-is until Lesson 0002 tells you what to create.
 import "./styles.css";
-import { createProject, addTodoToProject } from "./project.js";
+import { createProject, addTodoToProject, removeTodoFromProject } from "./project.js";
 import { createTodo, toggleComplete } from "./todo.js";
 import { saveProjects, loadProjects } from "./storage.js";
 import { renderProjects, renderTodos } from "./ui.js";
@@ -30,6 +30,53 @@ function draw() {
     activeId = id;
     draw();
     });
-    renderTodos(projects.find(p => p.id === activeId));
+    const activeProject = projects.find(p => p.id === activeId);
+    renderTodos(activeProject, {
+        onToggle: (todoId) => {
+            const todo = activeProject.todos.find(t => t.id === todoId);
+            toggleComplete(todo);
+            saveProjects(projects);
+            draw();
+        },
+        onDelete: (todoId) => {
+            removeTodoFromProject(activeProject, todoId);
+            saveProjects(projects);
+            draw();
+        },
+        onEdit: (todoId) => {
+            const todo = activeProject.todos.find(t => t.id === todoId);
+            const input = prompt("New Priority (low|medium|high):", todo.priority);
+            if (input === null) return;
+            const v = input.trim().toLowerCase();
+            if (!["low", "medium", "high"].includes(v)) {
+                alert("Must be low, medium, or high");
+                return;
+            }
+            todo.priority = v;
+            saveProjects(projects);
+            draw();
+        }
+    });
 }
+
+const form = document.querySelector('#todo-form');
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const active = projects.find(p => p.id === activeId);
+    const title = document.querySelector("#todo-title").value;
+    const dueDate = document.querySelector("#todo-dueDate").value;
+    const priority = document.querySelector("#todo-prio").value;
+
+    try {
+        const todo = createTodo({title, description: "", dueDate, priority});
+        addTodoToProject(active, todo);
+        saveProjects(projects);
+        draw();
+        form.reset();
+    } catch (err) {
+        alert(err.message);
+    }
+})
 draw();

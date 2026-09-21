@@ -17,7 +17,7 @@ export function renderProjects(projects, activeId, onSelect) {
 }
 
 
-export function renderTodos(project) {
+export function renderTodos(project, { onToggle, onDelete, onEdit } = {}) {
     const todosContainer = document.querySelector('#todos');
     const ul = document.createElement('ul');
     todosContainer.innerHTML = "";
@@ -35,12 +35,23 @@ export function renderTodos(project) {
         const title = document.createElement('strong');
         const dueDate = document.createElement("span");
         const priority = document.createElement("span");
+        const doneBtn = document.createElement("button");
+        const delBtn = document.createElement("button");
+        const editBtn = document.createElement("button");
 
         title.textContent = todo.title;
+        if (todo.completed) title.style.textDecoration = "line-through";
         dueDate.textContent = todo.dueDate;
         priority.textContent = todo.priority;
+        doneBtn.textContent = todo.completed ? "Undo" : "Done";
+        delBtn.textContent = "Delete";
+        editBtn.textContent = "Edit";
 
-        li.append(title, dueDate, priority);
+        doneBtn.addEventListener("click", () => onToggle(todo.id));
+        delBtn.addEventListener("click", () => onDelete(todo.id));
+        editBtn.addEventListener("click", () => onEdit(todo.id));
+
+        li.append(title, dueDate, priority, doneBtn, delBtn, editBtn);
         ul.appendChild(li);
     })
     todosContainer.appendChild(ul);

@@ -13,3 +13,9 @@ export function addTodoToProject(project, todo) {
     project.todos.push(todo);
     return project;
 }
+
+export function removeTodoFromProject(project, todoId) {
+    const i = project.todos.findIndex(t => t.id === todoId);
+    if (i !== -1) project.todos.splice(i, 1);
+    return project;
+}
