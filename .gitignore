@@ -151,6 +151,8 @@ learning-records/
 lessons/
 reference/
 assignment.md
-.impeccable/
-DESIGN.md
-PRODUCT.md
+# Keep durable design context; ignore local review captures and runtime state.
+.impeccable/*
+!.impeccable/config.json
+!.impeccable/design.json
+!.impeccable/surfaces/
